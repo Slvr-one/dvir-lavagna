@@ -5,7 +5,7 @@ java -Xms64m -Xmx128m -Ddatasource.dialect="${DB_DIALECT}" \
     -Ddatasource.username="${DB_USER}" \
     -Ddatasource.password="${DB_PASS}" \
     -Dspring.profiles.active="${SPRING_PROFILE}" \
-    -jar lavagna-jetty-console.war --headless
+    -jar lavagna-jetty-console.war
 
 
 #unzip SNAPSHOT and execute outputed script:

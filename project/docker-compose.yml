@@ -1,0 +1,38 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+    environment:
+      DB_DIALECT: MYSQL
+      DB_URL: jdbc:mysql://db:3306/lavagna?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      DB_USER: root
+      DB_PASS: 123456
+      SPRING_PROFILE: dev
+    ports:
+      - 8080:8080
+    entrypoint: ["bash", "entrypoint.sh"]
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: lavagna
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysql", "-uroot", "-p123456", "lavagna"]
+      #test: [ "CMD", "/usr/bin/mysql", "-uroot", "-p123456", "lavagna" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 2s
+    ports:
+      - 3306:3306
+    volumes:
+      - db-backup:/var/lib/mysql
+      - ./src/main/resources/io/lavagna/db/MYSQL:/docker-entrypoint-initdb.d
+      #- ./.travis.yml:/docker-entrypoint-initdb.d/:rw
+volumes:
+  db-backup:

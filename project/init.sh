@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 echo -e "\n\nremoving old containers\n\n"
-docker rm -f $(docker ps -aq)
+docker compose down
+#docker rm -f $(docker ps -aq)
 #docker image rm -f $(docker images -q)
 
 echo -e "\n\n now building and runnig if build is well--\n\n"
