@@ -20,8 +20,8 @@ COPY --from=first /dvir-lavagna-jdk/target/lavagna-jetty-console.war .
 #ENV DB_PASS ""
 #ENV SPRING_PROFILE prod
 
-
 RUN apk update && apk add ca-certificates && update-ca-certificates && apk add openssl
+RUN apk add netcat-openbsd
 
 EXPOSE 8080
 COPY entrypoint.sh .

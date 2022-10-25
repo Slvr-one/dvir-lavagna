@@ -4,10 +4,15 @@
 #aditional health check for mysql i found in gh ->
 up=false
 
-while [ ! $up ]; do; nc -z -v db:3306; #Scan the open ports of a specified host
-  if [ $? -eq 0 ]; then; up=true
-  else; echo -e "\n -mysql not up yet- \n\n"
-     sleep 5; fi; done;
+while [ ! $up ]; do
+  nc -zv db 3306 #Scan the open ports of a specified host
+  if [ $? -eq 0 ]; then
+    up=true
+  else
+    echo -e "\n -mysql not up yet- \n\n"
+    sleep 5   
+  fi
+done;
 
 java -Xms64m -Xmx128m -Ddatasource.dialect="${DB_DIALECT}" \
     -Ddatasource.url="${DB_URL}" \
